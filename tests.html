@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>БЖД Разработчика: Тестирование</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="components/head.js"></script>
+    </head>
+    <body class="page-fade-in theme-safe">
+        <!-- ЭФФЕКТ СКАНИРОВАНИЯ -->
+        <div class="scan-overlay" id="scanOverlay">
+            <div class="scan-line"></div>
+            <div class="scan-text">ИНИЦИАЛИЗАЦИЯ МОДУЛЯ ТЕСТИРОВАНИЯ...</div>
+        </div>
+
+        <!-- ШАПКА -->
+        <header class="main-header" id="main-header-component"></header>
+
+        <!-- КОНТЕНТ ТЕСТОВ -->
+        <main class="content-wrapper">
+            <section class="quiz-section">
+                <!-- МЕНЮ ВЫБОРА ТЕСТА -->
+                <div id="quiz-menu">
+                    <h2>Выберите модуль проверки знания БЖД</h2>
+                    <p class="subtitle">
+                        Каждый тест содержит 10 критических вопросов по ЧС.
+                    </p>
+
+                    <div class="category-menu">
+                        <button
+                            class="menu-card menu-critical"
+                            onclick="startSelectedQuiz('hardware')"
+                        >
+                            <span class="menu-badge">[HARDWARE]</span>
+                            <h3>Физическое выживание</h3>
+                            <p>
+                                Зрение, туннельный синдром, тромбоз и осанка
+                                разработчика.
+                            </p>
+                        </button>
+                        <button
+                            class="menu-card menu-warning"
+                            onclick="startSelectedQuiz('infrastructure')"
+                        >
+                            <span class="menu-badge">[INFRASTRUCTURE]</span>
+                            <h3>Аварии и Железо</h3>
+                            <p>
+                                Пожары, замыкания, залития и перегрузки рабочих
+                                станций.
+                            </p>
+                        </button>
+                        <button
+                            class="menu-card menu-info"
+                            onclick="startSelectedQuiz('software')"
+                        >
+                            <span class="menu-badge">[SOFTWARE & MIND]</span>
+                            <h3>Данные и Выгорание</h3>
+                            <p>
+                                Безопасность кода, бэкапы, фишинг и ментальная
+                                стойкость.
+                            </p>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ИНТЕРФЕЙС ТЕСТА -->
+                <div class="quiz-container hidden" id="quiz-body">
+                    <div class="quiz-header-nav">
+                        <button class="btn-back" onclick="backToMenu()">
+                            ← В меню модулей
+                        </button>
+                        <span id="quiz-title-display" class="quiz-current-title"
+                            >Тест</span
+                        >
+                    </div>
+
+                    <div id="question-box">
+                        <div class="progress-bar">
+                            <div id="progress-fill"></div>
+                        </div>
+                        <p class="question-text" id="question">
+                            Загрузка вопроса...
+                        </p>
+                        <div class="options" id="options"></div>
+                    </div>
+
+                    <div id="result-box" class="hidden">
+                        <h3>Лог компиляции результатов:</h3>
+                        <p id="result-text"></p>
+                        <div class="result-actions">
+                            <button class="btn-restart" onclick="restartQuiz()">
+                                Пройти заново
+                            </button>
+                            <button
+                                class="btn-menu-back"
+                                onclick="backToMenu()"
+                            >
+                                Другие тесты
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- ФУТЕР -->
+        <footer class="main-footer">
+            <p>
+                © 2026 Справочник БЖД Разработчика. Код пишется, жизнь
+                сохраняется.
+            </p>
+        </footer>
+
+        <script src="script.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const headerContainer = document.getElementById(
+                    "main-header-component",
+                );
+
+                // Проверяем наличие глобальной переменной из head.js
+                if (headerContainer && window.componentHeader) {
+                    headerContainer.innerHTML = window.componentHeader;
+
+                    // Подсвечиваем вкладку "Тесты" зеленым неоном
+                    document
+                        .getElementById("nav-tests")
+                        .classList.add("active");
+                }
+            });
+        </script>
+    </body>
+</html>

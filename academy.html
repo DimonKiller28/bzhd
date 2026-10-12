@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>БЖД Разработчика: База Знаний</title>
+        <link rel="stylesheet" href="style.css" />
+
+        <!-- АВТОНОМНОЕ ПОДКЛЮЧЕНИЕ ШАПКИ И СТАТЕЙ (БЕЗ FETCH И СЕРВЕРОВ) -->
+        <script src="components/head.js"></script>
+        <script src="articles/hardware.js"></script>
+        <script src="articles/infrastructure.js"></script>
+        <script src="articles/environment.js"></script>
+        <script src="articles/software.js"></script>
+    </head>
+    <body class="page-fade-in theme-info">
+        <!-- ШАПКА-КОМПОНЕНТ -->
+        <header class="main-header" id="main-header-component"></header>
+
+        <!-- ОСНОВНОЙ КОНТЕНТ (УЧЕБНИК) -->
+        <main class="academy-wrapper">
+            <div class="academy-container">
+                <!-- Боковое меню навигации -->
+                <aside class="academy-sidebar">
+                    <div class="sidebar-title">РАЗДЕЛЫ КУРСА</div>
+                    <ul class="sidebar-menu">
+                        <li>
+                            <button
+                                class="side-tab-btn active"
+                                data-target="hardware"
+                            >
+                                1. Hardware & Анатомия
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                class="side-tab-btn"
+                                data-target="infrastructure"
+                            >
+                                2. Инфраструктура и ЧС
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                class="side-tab-btn"
+                                data-target="environment"
+                            >
+                                3. Экология рабочего места
+                            </button>
+                        </li>
+                        <li>
+                            <button class="side-tab-btn" data-target="software">
+                                4. Software & Ментальный слой
+                            </button>
+                        </li>
+                    </ul>
+                </aside>
+
+                <!-- Динамическая зона загрузки статей из оперативной памяти -->
+                <section class="academy-content" id="academy-content-area">
+                    <div class="loading-status">
+                        Подключение к модулю безопасности...
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- ФУТЕР -->
+        <footer class="main-footer">
+            <p>
+                © 2026 Справочник БЖД Разработчика. Код пишется, жизнь
+                сохраняется.
+            </p>
+        </footer>
+
+        <!-- СКРИПТ АВТОНОМНОГО УПРАВЛЕНИЯ ВУЗОВСКИМИ ТАБАМИ -->
+        <script>
+            const tabButtons = document.querySelectorAll(".side-tab-btn");
+            const contentArea = document.getElementById("academy-content-area");
+
+            // Карта соответствия дата-атрибутов кнопок и глобальных переменных лекций
+            const articlesMap = {
+                hardware: window.articleHardware,
+                infrastructure: window.articleInfrastructure,
+                environment: window.articleEnvironment,
+                software: window.articleSoftware,
+            };
+
+            // Функция быстрой отрисовки лекции без fetch
+            function displayArticle(category) {
+                contentArea.classList.remove("fade-effect");
+
+                const htmlText = articlesMap[category];
+
+                if (htmlText) {
+                    contentArea.innerHTML = htmlText;
+                    void contentArea.offsetWidth; // Хак перезапуска анимации
+                    contentArea.classList.add("fade-effect");
+                } else {
+                    contentArea.innerHTML = `<div class="academy-box box-danger"><strong>Критический сбой:</strong> Модуль "${category}" не найден в глобальной памяти скриптов.</div>`;
+                }
+            }
+
+            // Логика кликов по кнопкам разделов
+            tabButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    const category = button.getAttribute("data-target");
+
+                    tabButtons.forEach((btn) => btn.classList.remove("active"));
+                    button.classList.add("active");
+
+                    displayArticle(category);
+                    window.scrollTo({ top: 0, behavior: "auto" });
+                });
+            });
+
+            // Инициализация интерфейса при старте
+            document.addEventListener("DOMContentLoaded", () => {
+                // 1. Рендерим и подсвечиваем шапку
+                const headerContainer = document.getElementById(
+                    "main-header-component",
+                );
+                if (headerContainer && window.componentHeader) {
+                    headerContainer.innerHTML = window.componentHeader;
+                    document
+                        .getElementById("nav-academy")
+                        ?.classList.add("active");
+                }
+
+                // 2. Выводим первую статью
+                displayArticle("hardware");
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,896 @@
+/* ==========================================================================
+   1. СБРОС СТИЛЕЙ И БАЗОВЫЕ НАСТРОЙКИ
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+    background-color: #0b0b0d;
+    color: #fff;
+    overflow: hidden; /* Отключаем дефолтный скролл браузера для работы слайдов */
+}
+
+/* Эффект мягкого появления страниц при загрузке */
+.page-fade-in {
+    animation: pageIn 0.5s ease-out both;
+}
+
+@keyframes pageIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   2. ФИКСИРОВАННАЯ ШАПКА (НАВИГАЦИЯ)
+   ========================================================================== */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    z-index: 100;
+    background: rgba(11, 11, 13, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo {
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: monospace;
+}
+
+.nav-links a {
+    color: #888;
+    text-decoration: none;
+    margin-left: 30px;
+    font-weight: 500;
+    transition:
+        color 0.3s,
+        border-bottom 0.3s;
+    padding-bottom: 5px;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+    color: #fff;
+}
+
+/* Индивидуальная подсветка активной ссылки в зависимости от темы страницы */
+.theme-danger .nav-links a.active {
+    border-bottom: 2px solid #f44336;
+    color: #f44336;
+}
+.theme-safe .nav-links a.active {
+    border-bottom: 2px solid #4caf50;
+    color: #4caf50;
+}
+
+/* ==========================================================================
+   3. ПОЛНОЭКРАННЫЕ СЛАЙДЫ (PAGE SNAPPING)
+   ========================================================================== */
+.slides-container {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory; /* Жесткая фиксация скролла по вертикали */
+    scroll-behavior: smooth;
+}
+
+.slide-section {
+    height: 100vh;
+    width: 100%;
+    scroll-snap-align: start; /* Привязывает начало слайда к экрану */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 20px 40px 20px;
+    position: relative;
+    background: radial-gradient(circle at center, #141419 0%, #0b0b0d 100%);
+}
+
+.slide-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Двухколоночная сетка: Текст слева, Картинка справа */
+.grid-2ch {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 60px;
+    align-items: center;
+}
+
+/* ==========================================================================
+   4. СТИЛИЗАЦИЯ КОНТЕНТА НА СЛАЙДАХ
+   ========================================================================== */
+.text-side {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.card-badge {
+    font-family: monospace;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.text-side h1,
+.text-side h2 {
+    font-size: 2.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    font-weight: 800;
+}
+
+.hero-desc {
+    font-size: 1.15rem;
+    color: #aaa;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* Информационные текстовые блоки */
+.info-block {
+    margin-top: 25px;
+    background: rgba(255, 255, 255, 0.01);
+    padding: 20px;
+    border-left: 3px solid #333;
+    border-radius: 0 6px 6px 0;
+}
+
+.info-block h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.info-block p {
+    font-size: 0.95rem;
+    color: #999;
+    line-height: 1.5;
+}
+
+/* Декоративные сигнальные линии */
+.warning-line {
+    height: 6px;
+    margin: 20px 0;
+    border-radius: 3px;
+    width: 100%;
+}
+
+/* ==========================================================================
+   5. ГРАФИЧЕСКИЕ КОНТЕЙНЕРЫ (КАРТИНКИ) И НЕОН
+   ========================================================================== */
+.image-side {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.img-container {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: #141419;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+    transition:
+        box-shadow 0.4s ease,
+        border-color 0.4s ease,
+        transform 0.3s ease;
+}
+
+.img-container:hover {
+    transform: scale(1.01);
+}
+
+.img-placeholder {
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: #444;
+    letter-spacing: 1px;
+}
+
+/* Цветовые схемы для слайдов */
+/* Слайд 1 (Critical - Красный) */
+.color-critical {
+    color: #f44336;
+}
+.text-side h1 {
+    color: #f44336;
+}
+.line-critical {
+    background: repeating-linear-gradient(
+        45deg,
+        #f44336,
+        #f44336 10px,
+        #0b0b0d 10px,
+        #0b0b0d 20px
+    );
+}
+.slide-section:nth-child(1) .info-block {
+    border-left-color: rgba(244, 67, 54, 0.4);
+}
+.glow-critical {
+    box-shadow: 0 0 40px rgba(244, 67, 54, 0.03);
+}
+.img-container.glow-critical:hover {
+    border-color: #f44336;
+    box-shadow: 0 0 40px rgba(244, 67, 54, 0.2);
+}
+
+/* Слайд 2 (Warning - Оранжевый) */
+.color-warning {
+    color: #ff9800;
+}
+.text-side h2.color-warning {
+    color: #ff9800;
+}
+.line-warning {
+    background: repeating-linear-gradient(
+        45deg,
+        #ff9800,
+        #ff9800 10px,
+        #0b0b0d 10px,
+        #0b0b0d 20px
+    );
+}
+.slide-section:nth-child(2) .info-block {
+    border-left-color: rgba(255, 152, 0, 0.4);
+}
+.glow-warning {
+    box-shadow: 0 0 40px rgba(255, 152, 0, 0.03);
+}
+.img-container.glow-warning:hover {
+    border-color: #ff9800;
+    box-shadow: 0 0 40px rgba(255, 152, 0, 0.2);
+}
+
+/* Слайд 3 (Info - Голубой) */
+.color-info {
+    color: #00bcd4;
+}
+.text-side h2.color-info {
+    color: #00bcd4;
+}
+.line-info {
+    background: repeating-linear-gradient(
+        45deg,
+        #00bcd4,
+        #00bcd4 10px,
+        #0b0b0d 10px,
+        #0b0b0d 20px
+    );
+}
+.slide-section:nth-child(3) .info-block {
+    border-left-color: rgba(0, 188, 212, 0.4);
+}
+.glow-info {
+    box-shadow: 0 0 40px rgba(0, 188, 212, 0.03);
+}
+.img-container.glow-info:hover {
+    border-color: #00bcd4;
+    box-shadow: 0 0 40px rgba(0, 188, 212, 0.2);
+}
+
+/* Слайд 4 (Secure - Зеленый) */
+.color-safe {
+    color: #4caf50;
+}
+.text-side h2.color-safe {
+    color: #4caf50;
+}
+.line-safe {
+    background: repeating-linear-gradient(
+        45deg,
+        #4caf50,
+        #4caf50 10px,
+        #0b0b0d 10px,
+        #0b0b0d 20px
+    );
+}
+.slide-section:nth-child(4) .info-block {
+    border-left-color: rgba(76, 175, 80, 0.4);
+}
+.glow-safe {
+    box-shadow: 0 0 40px rgba(76, 175, 80, 0.03);
+}
+.img-container.glow-safe:hover {
+    border-color: #4caf50;
+    box-shadow: 0 0 40px rgba(76, 175, 80, 0.2);
+}
+
+/* Кнопка действия */
+.action-block-inline {
+    margin-top: 30px;
+}
+.btn-action {
+    display: inline-block;
+    padding: 14px 35px;
+    background: #4caf50;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
+.btn-action:hover {
+    background: #388e3c;
+    transform: scale(1.02);
+}
+
+/* ==========================================================================
+   6. СТИЛИ ДЛЯ ОТДЕЛЬНОЙ СТРАНИЦЫ ТЕСТОВ (theme-safe)
+   ========================================================================== */
+body.theme-safe {
+    overflow-y: auto; /* На странице тестов обычный классический скролл */
+    background: radial-gradient(circle at center, #0f1c16 0%, #0b0b0d 100%);
+}
+
+.content-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 140px 20px 60px 20px;
+    min-height: calc(100vh - 75px); /* Предотвращает прыжки интерфейса */
+}
+
+.quiz-section {
+    width: 100%;
+    max-width: 650px;
+    text-align: center;
+}
+
+.quiz-section h2 {
+    color: #4caf50;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+.subtitle {
+    color: #888;
+    margin-bottom: 30px;
+}
+
+.quiz-container {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(76, 175, 80, 0.2);
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    text-align: left;
+}
+
+.progress-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 25px;
+    border-radius: 2px;
+    overflow: hidden;
+}
+#progress-fill {
+    height: 100%;
+    background: #4caf50;
+    width: 0%;
+    transition: width 0.3s;
+}
+
+.question-text {
+    font-size: 1.25rem;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.options button {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    text-align: left;
+    transition: all 0.2s;
+}
+.options button:hover {
+    background: rgba(76, 175, 80, 0.15);
+    border-color: #4caf50;
+}
+
+.btn-restart {
+    padding: 12px 25px;
+    background: #4caf50;
+    border: none;
+    color: #000;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+/* ==========================================================================
+   7. ЗАКРЫВАЮЩИЙСЯ ШЛЮЗ СКАНИРОВАНИЯ (БЕЗ ТРЯСКИ)
+   ========================================================================== */
+.scan-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #0b0b0d;
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    pointer-events: none;
+    transition:
+        opacity 0.5s ease-out,
+        transform 0.5s ease-out;
+}
+
+.scan-overlay.loaded {
+    opacity: 0;
+    transform: scale(1.05);
+}
+
+.scan-line {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: #4caf50;
+    box-shadow: 0 0 15px #4caf50;
+    top: 0;
+    animation: scanAnimation 1.2s linear infinite;
+}
+
+.scan-text {
+    font-family: monospace;
+    color: #4caf50;
+    letter-spacing: 2px;
+}
+@keyframes scanAnimation {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(99vh);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+.hidden {
+    display: none;
+}
+/* ==========================================================================
+8. ПОДВАЛ (ФУТЕР)
+========================================================================== */
+.main-footer {
+    scroll-snap-align: end; /* Фиксирует подвал в конце контейнера слайдов */
+    background: #070708;
+    padding: 30px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    color: #444;
+    font-size: 0.85rem;
+}
+/* ==========================================================================
+9. АДАПТИВНОСТЬ ДЛЯ СМАРТФОНОВ
+========================================================================== */
+@media (max-width: 1024px) {
+    html,
+    body {
+        overflow: auto;
+    } /* Возвращаем скролл на телефонах */
+    .slides-container {
+        scroll-snap-type: none;
+        height: auto;
+    }
+    .slide-section {
+        height: auto;
+        padding: 120px 20px 60px 20px;
+    }
+    .grid-2ch {
+        grid-template-columns: 1fr; /* Колонки перестраиваются в одну линию */
+        gap: 40px;
+    }
+    .image-side {
+        order: -1;
+    } /* Изображение встает над текстом */
+    .text-side h1,
+    .text-side h2 {
+        font-size: 2rem;
+    }
+}
+
+/* МЕНЮ ВЫБОРА КАТЕГОРИЙ ТЕСТОВ */
+.category-menu {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.menu-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 20px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    color: #fff;
+    transition: all 0.25s ease;
+    width: 100%;
+}
+
+.menu-card:hover {
+    transform: translateX(5px);
+}
+
+.menu-badge {
+    font-family: monospace;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.menu-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+}
+.menu-card p {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Стилизация рамок выбора тестов */
+.menu-critical:hover {
+    border-color: #f44336;
+    background: rgba(244, 67, 54, 0.03);
+}
+.menu-critical .menu-badge {
+    color: #f44336;
+}
+
+.menu-warning:hover {
+    border-color: #ff9800;
+    background: rgba(255, 152, 0, 0.03);
+}
+.menu-warning .menu-badge {
+    color: #ff9800;
+}
+
+.menu-info:hover {
+    border-color: #00bcd4;
+    background: rgba(0, 188, 212, 0.03);
+}
+.menu-info .menu-badge {
+    color: #00bcd4;
+}
+
+/* Управление навигацией внутри теста */
+.quiz-header-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 15px;
+}
+
+.btn-back {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+.btn-back:hover {
+    color: #fff;
+}
+
+.quiz-current-title {
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: #4caf50;
+}
+
+.result-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-menu-back {
+    padding: 12px 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.2s;
+}
+.btn-menu-back:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   10. СТИЛИ ДЛЯ СТРАНИЦЫ БАЗЫ ЗНАНИЙ (ACADEMY)
+   ========================================================================== */
+body.theme-info {
+    overflow-y: auto; /* Свободный вертикальный скролл для чтения статей */
+    background: radial-gradient(circle at center, #0a141d 0%, #0b0b0d 100%);
+}
+
+.academy-wrapper {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 120px 20px 60px 20px;
+    width: 100%;
+}
+
+.academy-container {
+    display: flex;
+    gap: 40px;
+    position: relative;
+}
+
+/* Фиксированное боковое меню */
+.academy-sidebar {
+    width: 280px;
+    position: sticky;
+    top: 120px;
+    height: calc(100vh - 160px);
+    overflow-y: auto;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    padding-right: 20px;
+}
+
+.sidebar-title {
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #00bcd4;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.side-tab-btn {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+    display: block;
+    padding: 8px 0;
+    width: 100%;
+    font-family: inherit;
+}
+
+.side-tab-btn:hover,
+.side-tab-btn.active {
+    color: #00bcd4;
+}
+
+.side-tab-btn.active {
+    font-weight: bold;
+    padding-left: 5px;
+    border-left: 2px solid #00bcd4;
+}
+
+/* АНИМАЦИЯ ПОЯВЛЕНИЯ ВЫБРАННОЙ СТАТЬИ */
+.fade-effect {
+    animation: fadeInTab 0.35s ease-in-out both;
+}
+
+@keyframes fadeInTab {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.academy-content {
+    flex: 1;
+    max-width: 850px;
+    min-height: 60vh;
+}
+
+.academy-article {
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    border-bottom: none;
+}
+
+.sidebar-menu {
+    list-style: none;
+}
+
+.sidebar-menu li {
+    margin-bottom: 12px;
+}
+
+.sidebar-menu a {
+    color: #888;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    display: block;
+    padding: 6px 0;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+    color: #00bcd4;
+    transform: translateX(3px);
+}
+
+/* Секция контента статей */
+.academy-content {
+    flex: 1;
+    max-width: 850px;
+}
+
+.academy-article {
+    padding-bottom: 60px;
+    margin-bottom: 60px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.article-meta {
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #555;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.academy-article h2 {
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.theory-block {
+    margin-top: 30px;
+}
+
+.theory-block h4 {
+    font-size: 1.25rem;
+    color: #eee;
+    margin-bottom: 12px;
+}
+
+.theory-block p {
+    font-size: 1rem;
+    color: #aaa;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Информационные плашки внутри лекций */
+.academy-box {
+    padding: 20px;
+    border-radius: 6px;
+    margin: 20px 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    border-left: 4px solid #333;
+}
+.box-danger {
+    background: rgba(244, 67, 54, 0.03);
+    border-left-color: #f44336;
+    color: #ffcdd2;
+}
+.box-warning {
+    background: rgba(255, 152, 0, 0.03);
+    border-left-color: #ff9800;
+    color: #ffe0b2;
+}
+.box-info {
+    background: rgba(0, 188, 212, 0.03);
+    border-left-color: #00bcd4;
+    color: #b2ebf2;
+}
+
+/* Техническая таблица средств пожаротушения */
+.academy-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.academy-table th,
+.academy-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.academy-table th {
+    background: rgba(255, 255, 255, 0.02);
+    color: #fff;
+    font-family: monospace;
+}
+
+.academy-table td {
+    color: #ccc;
+}
+
+/* Статусы в таблице */
+.status-fail {
+    color: #ef9a9a;
+    font-weight: bold;
+}
+.status-warn {
+    color: #ffe082;
+    font-weight: bold;
+}
+.status-ok {
+    color: #a5d6a7;
+    font-weight: bold;
+}
+
+/* Адаптивность для учебника */
+@media (max-width: 900px) {
+    .academy-container {
+        flex-direction: column;
+    }
+    .academy-sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+}
